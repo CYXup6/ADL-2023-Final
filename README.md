@@ -42,3 +42,5 @@ The main folders and files are structured as follows:
                   └─ calc_score_comparison_reverse
                      └─ gpt_35_0301.sh  //This is the script for running the experiments with reverse responses to conduct position calibration
 ```
+### Description of how to run the code
+In our work, all experiments are carried out using the gpt_35_0301.sh. However, we alter the config.yaml for various experimental setups and distinct personas.
