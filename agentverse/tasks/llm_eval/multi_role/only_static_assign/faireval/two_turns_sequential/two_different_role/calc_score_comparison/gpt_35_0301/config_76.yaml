@@ -1,0 +1,117 @@
+prompts:
+  prompt: &prompt |-
+    [Question]
+    ${source_text}
+    [The Start of Assistant 1’s Answer]
+    ${compared_text_one}
+    [The End of Assistant 1’s Answer]
+    [The Start of Assistant 2’s Answer]
+    ${compared_text_two}
+    [The End of Assistant 2’s Answer]
+    [System]
+    We would like to request your feedback on the performance of two AI assistants in response to the user question displayed above.
+    Please consider the helpfulness, relevance, accuracy, and level of detail of their responses.
+    There are a few other referee assigned the same task, it's your responsibility to discuss with them and think critically before you make your final judgement.
+    Each assistant receives an overall score on a scale of 1 to 10, where a higher score indicates better overall performance.
+
+    Here is your discuss history:
+    ${chat_history}
+
+    ${role_description}
+
+    Now it's your time to talk, please make your talk short and clear, ${agent_name} !
+
+    ${final_prompt}
+
+
+environment:
+  env_type: llm_eval
+  max_turns: 6
+  rule:
+    order:
+      type: sequential
+    visibility:
+      type: all
+    selector:
+      type: basic
+    updater:
+      type: basic
+    describer:
+      type: basic
+
+agents:
+  -
+    agent_type: llm_eval_multi
+    name: Travel Blogger
+    final_prompt_to_use: |-
+      Please first provide a comprehensive explanation of your evaluation, avoiding any potential bias and ensuring that the order in which the responses were presented does not affect your judgment.
+      Then, output two lines indicating the scores for Assistant 1 and 2, respectively.
+
+      Remember that you are not required to output the same value as other referees !
+      Output with the following format strictly:
+      Evaluation evidence: [your explanation here]
+      The score of Assistant 1: [score only]
+      The score of Assistant 2: [score only]
+    role_description: |-
+      You are the Travel Blogger, one of the referees in this task. Your expertise lies in creating engaging and informative travel content. Your role is to evaluate the responses based on their ability to captivate readers, provide valuable cultural insights, and showcase the must-see attractions in Hawaii. Please help others determine which response is better.
+    memory:
+      memory_type: chat_history
+    memory_manipulator:
+      memory_manipulator_type: basic
+    prompt_template: *prompt
+    llm:
+      model: "gpt-3.5-turbo-0301"
+      llm_type: gpt-3.5-turbo-0301
+      temperature: 0
+      max_tokens: 512
+  -
+    agent_type: llm_eval_multi
+    name: Tour Guide
+    final_prompt_to_use: |-
+      Please first provide a comprehensive explanation of your evaluation, avoiding any potential bias and ensuring that the order in which the responses were presented does not affect your judgment.
+      Then, output two lines indicating the scores for Assistant 1 and 2, respectively.
+
+      Remember that you are not required to output the same value as other referees !
+      Output with the following format strictly:
+      Evaluation evidence: [your explanation here]
+      The score of Assistant 1: [score only]
+      The score of Assistant 2: [score only]
+    role_description: |-
+      You are the Tour Guide, one of the referees in this task. Your knowledge of Hawaii's culture and attractions is extensive, and you excel at providing detailed and accurate information to tourists. Your role is to assess the responses based on their accuracy in portraying the cultural experiences and must-see attractions in Hawaii. Please help others determine which response is better.
+    memory:
+      memory_type: chat_history
+    memory_manipulator:
+      memory_manipulator_type: basic
+    prompt_template: *prompt
+    llm:
+      model: "gpt-3.5-turbo-0301"
+      llm_type: gpt-3.5-turbo-0301
+      temperature: 0
+      max_tokens: 512
+      
+  -
+    agent_type: llm_eval_multi
+    name: Language Expert
+    final_prompt_to_use: |-
+      Please first provide a comprehensive explanation of your evaluation, avoiding any potential bias and ensuring that the order in which the responses were presented does not affect your judgment.
+      Then, output two lines indicating the scores for Assistant 1 and 2, respectively.
+
+      Remember that you are not required to output the same value as other referees !
+      Output with the following format strictly:
+      Evaluation evidence: [your explanation here]
+      The score of Assistant 1: [score only]
+      The score of Assistant 2: [score only]
+    role_description: |-
+      You are the Language Expert, one of the referees in this task. Your expertise lies in evaluating the quality of writing, grammar, and vocabulary usage. Your role is to assess the responses based on their fluency, clarity, and effective use of language to engage readers. Please help others determine which response is better.
+    memory:
+      memory_type: chat_history
+    memory_manipulator:
+      memory_manipulator_type: basic
+    prompt_template: *prompt
+    llm:
+      model: "gpt-3.5-turbo-0301"
+      llm_type: gpt-3.5-turbo-0301
+      temperature: 0
+      max_tokens: 512
+
+tools: ~
