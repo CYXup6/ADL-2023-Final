@@ -80,7 +80,7 @@ class BasicEnvironment(BaseEnvironment):
     def print_messages(self, messages: List[Message]) -> None:
         for message in messages:
             if message is not None:
-                logging.info(f"{message.sender}: {message.content}")
+                logging.info(f"{message.sender}: {message.content}\n\n---\n")
 
     def reset(self) -> None:
         """Reset the environment"""

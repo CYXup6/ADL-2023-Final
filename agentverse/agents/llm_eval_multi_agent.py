@@ -31,6 +31,10 @@ class LLMEvalAgent(BaseAgent):
     final_prompt: str = ""
     final_prompt_to_use: str = ""
 
+    # for persona
+    role_description: str = ""
+    name: str = ""
+
     def step(self, env_description: str = "") -> Message:
         prompt = self._fill_prompt_template(env_description)
 
